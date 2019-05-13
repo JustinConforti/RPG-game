@@ -19,6 +19,13 @@
     margin-left:5px;
 }  */
 
+#opponentList {
+    margin-left: 750px;
+    margin-top: 50px;
+    width:400px;
+    display:block-inline;
+}
+
 div #starting {
 
     margin: 15px;
@@ -32,6 +39,10 @@ div #starting {
     float:left;
     margin-left:35px;
 
+}
+
+.pickCharacter {
+    margin-left:15px;
 }
 
 #Zuko.startingPosition {
@@ -58,3 +69,62 @@ div #starting {
     padding:15px;
     height:275px;
 }
+
+
+#Zuko.defendingCharacter {
+    background-color:rgb(243, 53, 46);
+    padding:15px;
+    width:300px;
+    height:275px;
+}
+
+#Aang.defendingCharacter {
+    background-color:rgb(206, 206, 231);
+    height:275px;
+    width:300px;
+
+    padding:25px;
+}
+
+#Katara.defendingCharacter {
+    background-color:rgb(53, 53, 175);
+    height:275px;
+    width:300px;
+
+}
+
+#Oppa.defendingCharacter {
+    background-color:rgb(0, 255, 76);
+    padding:15px;
+    height:275px;
+    width:300px;
+
+}
+
+#Zuko.userCharacter {
+    background-color:rgb(243, 53, 46);
+    padding:15px;
+    width:300px;
+    height:275px;
+}
+
+#Aang.userCharacter {
+    background-color:rgb(206, 206, 231);
+    height:275px;
+    width:300px;
+
+    padding:25px;
+}
+
+#Katara.userCharacter {
+    background-color:rgb(53, 53, 175);
+    height:275px;
+    width:300px;
+
+}
+
+#Oppa.userCharacter {
+    background-color:rgb(0, 255, 76);
+    padding:15px;
+    height:275px;
+    width:300px;

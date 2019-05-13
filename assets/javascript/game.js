@@ -18,6 +18,7 @@ let opponentAttack;
 let currentAttackPower;
 let totalOpponents = 3;
 let gameStarted = false;
+let pickedCharacter = false;
 // create start / restart button that will flag gameStarted and run startGame()
 // character-buttons will not be generated until startGame function has been run
 // use of .data?
@@ -42,7 +43,7 @@ function startGame() {
         });
         characterImg.attr("src", "assets/images/" + charImg[i]); // attaching a src and image to each character[i];
         let currentAttackPowerSpan = $("<span>").addClass("currentAttack").html("    Damage:" + character.data("attacknumber"));
-        let currentHpSpan = $("<span>").addClass("currentHp").html("health:" + character.data("hp")); // making a child span with class currentHP and setting its html to characters("hp") using .data function
+        let currentHpSpan = $("<span>").addClass("currentHp").html("Health:" + character.data("hp")); // making a child span with class currentHP and setting its html to characters("hp") using .data function
         character.append(characterName[i], characterImg, currentHpSpan, currentAttackPowerSpan); // add later: HP alert? + character damage number? spans/id?
         $("#starting").append(character); // appends character variable to starting div and repeats until no more characters in characterName array
     }
@@ -53,25 +54,26 @@ $(document).on('click', '.startingPosition', function () { // on click function 
 
     $(this).removeClass("startingPosition"); // removing starting position class and moving it to userCharacter 
     $(this).addClass("userCharacter");
-    $(this).removeClass("defendingPosition")
     currentHealthPoints = $(this).data("hp"); // assigns the chosen characters hp value to the global currentHealthPoint variable
     console.log(currentHealthPoints)
+    $(".attackingPosition").append($(this));
+
+   //  $('h3').hasClass('pickCharacter').css("display: none"); // How to hide this h3 class?
+
 
     // console.log($(this))
 
     for (let i = 0; i < characterAttack.length; i++) { // making an if loop to check
 
-        if (characterAttack[i] != $(this).data("attacknumber")) { // ASK: better way to check this? By class perhaps? //
+        if (characterAttack[i] != $(this).data("attacknumber")) { // ASK: better way to check this? By classes perhaps? //
 
             // console.log("hey")
-
-            $("#" + characterName[i]).removeClass("startingPosition").addClass("defendingPosition") //targeting Id(#) of each characterName
-
+            $("#" + characterName[i]).removeClass("startingPosition").addClass("defendingCharacter") //targeting Id(#) of each characterName
             // console.log(characterName[i])
+            $(".defendingPosition").append($("#" + characterName[i]));
         }
-
-
     }
+    whoIsOpponent();
 
     // if ($(this).hasClass("defendingPosition")) {   <------ DEBUGGGER IF STILL NECESSARY
     //     console.log('hey')
@@ -84,5 +86,18 @@ $(document).on('click', '.startingPosition', function () { // on click function 
 
 });
 
+function whoIsOpponent() {
+    
+ $(document).on('click', '.defendingCharacter', function () {
 
+    $(this).removeClass("defendingCharacter").addClass("currentOpponent")
+    
+    
+    
+
+    console.log("hey")
+
+})
+
+}
 startGame()
