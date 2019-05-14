@@ -128,3 +128,10 @@ div #starting {
     padding:15px;
     height:275px;
     width:300px;
+}
+
+.currentOpponentList {
+    
+    height:100px;
+    width:100px;
+}

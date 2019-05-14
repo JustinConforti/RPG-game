@@ -39,10 +39,11 @@ function startGame() {
             "data-attacknumber": characterAttack[i]
         });
         character.attr({
-            "data-counterNumber": characterCounter[i]
+            "data-counternumber": characterCounter[i]
         });
         characterImg.attr("src", "assets/images/" + charImg[i]); // attaching a src and image to each character[i];
         let currentAttackPowerSpan = $("<span>").addClass("currentAttack").html("    Damage:" + character.data("attacknumber"));
+        // let currentCounterPowerSpan = $("<span>").addClass("counterAttack").html("    Counter Damage:" +character.data("counternumber"));
         let currentHpSpan = $("<span>").addClass("currentHp").html("Health:" + character.data("hp")); // making a child span with class currentHP and setting its html to characters("hp") using .data function
         character.append(characterName[i], characterImg, currentHpSpan, currentAttackPowerSpan); // add later: HP alert? + character damage number? spans/id?
         $("#starting").append(character); // appends character variable to starting div and repeats until no more characters in characterName array
@@ -58,20 +59,21 @@ $(document).on('click', '.startingPosition', function () { // on click function 
     console.log(currentHealthPoints)
     $(".attackingPosition").append($(this));
 
-   //  $('h3').hasClass('pickCharacter').css("display: none"); // How to hide this h3 class?
-
-
+    //  $('h3').hasClass('pickCharacter').css("display: none"); // How to hide this h3 class?
     // console.log($(this))
-
     for (let i = 0; i < characterAttack.length; i++) { // making an if loop to check
-
         if (characterAttack[i] != $(this).data("attacknumber")) { // ASK: better way to check this? By classes perhaps? //
 
-            // console.log("hey")
+            let currentCounterPowerSpan = $("<span>").addClass("counterAttack").html("    Counter Damage:" + ($(this).data("counternumber")));
+            $("#" + characterName[i] + "span").removeClass("currentAttack"); // WHY??!?!?! NO WORK
             $("#" + characterName[i]).removeClass("startingPosition").addClass("defendingCharacter") //targeting Id(#) of each characterName
-            // console.log(characterName[i])
+            $("#" + characterName[i]).append(currentCounterPowerSpan);
             $(".defendingPosition").append($("#" + characterName[i]));
         }
+
+        
+    
+
     }
     whoIsOpponent();
 
@@ -87,17 +89,70 @@ $(document).on('click', '.startingPosition', function () { // on click function 
 });
 
 function whoIsOpponent() {
-    
- $(document).on('click', '.defendingCharacter', function () {
 
-    $(this).removeClass("defendingCharacter").addClass("currentOpponent")
-    
-    
-    
+    $(document).on('click', '.defendingCharacter', function () {
+        opponentHealth = $(this).data('hp')
+        $(this).removeClass("defendingCharacter").addClass("currentOpponent");
+        $(".currentOpponentList").append($(this));
+        $(".currentOpponent").find("span").remove();//remove span elements
+        $(".currentOpponent").append("<span>").addClass("enemyHealth")
+            $('.currentOpponent span').html(opponentHealth);
 
-    console.log("hey")
 
-})
+
+
+
+
+        console.log("hey")
+
+    })
+    fightMode()
+}
+
+
+function fightMode() {
+    $('.hit').on('click', function () {
+
+        opponentHealth = $(".currentOpponent").data("hp");
+        currentAttackPower = $('.userCharacter').data('attacknumber');
+        // console.log(currentAttackPower)
+        // console.log($(".currentOpponent").data("hp"))
+
+        if ($(".currentOpponent").data("hp") > 0) {
+            opponentHealth = parseInt($(".currentOpponent").data("hp") - currentAttackPower);
+            console.log(opponentHealth)
+        }
+
+        updateHP()
+        updateAttackPower()
+        console.log(opponentHealth)
+        return opponentHealth;
+
+
+
+    })
+
+
+
+
+
+}
+
+function updateAttackPower() {
+    currentAttackPower = currentAttackPower * 2
+    console.log(currentAttackPower)
+
+    $('.userCharacter').data('attacknumber', currentAttackPower);
+
+}
+
+function updateHP() {
+
+    // $(".currentOpponent").find("span").remove();//remove span elements
+
+    $('.currentOpponent').data('hp', opponentHealth);
+    $('.currentOpponent span').html(opponentHealth);
+
 
 }
 startGame()
