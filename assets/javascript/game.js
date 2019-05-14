@@ -30,7 +30,7 @@ function startGame() {
         character.addClass("startingPosition"); // assigns startingPosition class which will push all characters to their starting spot
         character.attr("id", characterName[i]);
         character.attr({
-            "name": characterName[i]
+            "data-name": characterName[i]
         }); // using "for" loop to load each characters stats to their HTML
         character.attr({
             "data-hp": characterHealth[i]
@@ -57,6 +57,11 @@ $(document).on('click', '.startingPosition', function () { // on click function 
     $(this).addClass("userCharacter");
     currentHealthPoints = $(this).data("hp"); // assigns the chosen characters hp value to the global currentHealthPoint variable
     console.log(currentHealthPoints)
+    $(".userCharacter").find("span").remove();//remove span elements
+    $(".userCharacter").append("<span>").addClass("Health")
+    $('.userCharacter span').html(currentHealthPoints);
+
+
     $(".attackingPosition").append($(this));
 
     //  $('h3').hasClass('pickCharacter').css("display: none"); // How to hide this h3 class?
@@ -98,11 +103,6 @@ function whoIsOpponent() {
         $(".currentOpponent").append("<span>").addClass("enemyHealth")
             $('.currentOpponent span').html(opponentHealth);
 
-
-
-
-
-
         console.log("hey")
 
     })
@@ -112,21 +112,24 @@ function whoIsOpponent() {
 
 function fightMode() {
     $('.hit').on('click', function () {
-
+        currentHealthPoints = $(".userCharacter").data("hp");
         opponentHealth = $(".currentOpponent").data("hp");
         currentAttackPower = $('.userCharacter').data('attacknumber');
+        opponentAttack = $(".currentOpponent").data("counternumber")
         // console.log(currentAttackPower)
         // console.log($(".currentOpponent").data("hp"))
 
         if ($(".currentOpponent").data("hp") > 0) {
             opponentHealth = parseInt($(".currentOpponent").data("hp") - currentAttackPower);
-            console.log(opponentHealth)
+            currentHealthPoints = parseInt($(".userCharacter").data("hp") - opponentAttack)
+
+            console.log(currentHealthPoints)
         }
 
         updateHP()
         updateAttackPower()
-        console.log(opponentHealth)
-        return opponentHealth;
+        checkWin()
+        
 
 
 
@@ -148,11 +151,24 @@ function updateAttackPower() {
 
 function updateHP() {
 
-    // $(".currentOpponent").find("span").remove();//remove span elements
 
     $('.currentOpponent').data('hp', opponentHealth);
     $('.currentOpponent span').html(opponentHealth);
+    $(".userCharacter").data("hp", currentHealthPoints)
+    $(".userCharacter span").html(currentHealthPoints)
 
 
+}
+
+function checkWin() {
+    
+    if (opponentHealth < 0) {
+        // $(".")
+        var currentEnemyPlayer = $(".currentOpponent").data("name")
+        console.log(currentEnemyPlayer)
+        $("#" + currentEnemyPlayer).remove()
+        totalOpponents--
+        whoIsOpponent()
+        }
 }
 startGame()
