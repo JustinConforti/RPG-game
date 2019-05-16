@@ -10,8 +10,8 @@
 let charImg = ["avatar.jpg", "zuko.jpg", "katara.jpg", "appa.jpg"];
 let characterName = ["Aang", "Zuko", "Katara", "Oppa", ];
 let characterHealth = [1500, 1250, 1000, 4500];
-var characterAttack = [100, 125, 150, 50];
-let characterCounter = [50, 50, 50, 15];
+var characterAttack = [7, 12, 15, 2];
+let characterCounter = [95, 75, 100, 15];
 var currentHealthPoints
 let opponentHealth;
 let opponentAttack;
@@ -59,7 +59,7 @@ $(document).on('click', '.startingPosition', function () { // on click function 
     console.log(currentHealthPoints)
     $(".userCharacter").find("span").remove(); //remove span elements
     $(".userCharacter").append("<span>").addClass("Health")
-    $('.userCharacter span').html(currentHealthPoints);
+    $('.userCharacter span').html("Max Health: " + currentHealthPoints);
 
 
     $(".attackingPosition").append($(this));
@@ -102,7 +102,7 @@ function whoIsOpponent() {
         $(".currentOpponentList").append($(this));
         $(".currentOpponent").find("span").remove(); //remove span elements
         $(".currentOpponent").append("<span>").addClass("enemyHealth")
-        $('.currentOpponent span').html(opponentHealth);
+        $('.currentOpponent span').html("Max Health:  " + opponentHealth);
         $(".message-box").text("Prepare to fight!")
 
         console.log("hey")
@@ -125,11 +125,13 @@ function fightMode() {
         if ($(".currentOpponent").data("hp") > 0) {
             opponentHealth = parseInt($(".currentOpponent").data("hp") - currentAttackPower);
             currentHealthPoints = parseInt($(".userCharacter").data("hp") - opponentAttack)
+           currentAttackPower = Math.floor(currentAttackPower);
 
+        
             console.log(currentHealthPoints)
-            $(".message-box").text("You swing and hit your opponent for " + currentAttackPower + "his health is now" + opponentHealth + "Your opponent counter swings and hits you for" + opponentAttack + "your health is currently" + currentHealthPoints)
-            $(".message-box").append("<span>").addClass("secondline")
-            $(".secondline").text("second line start here")
+            $(".message-box").text("You swing and hit your opponent for " + currentAttackPower + "  his health is now " + opponentHealth + "       Your opponent counter swings and hits you for  " + opponentAttack + "  your health is currently   " + currentHealthPoints)
+            // $(".message-box").append("<span>").addClass("secondline")
+            // $(".secondline").text("second line start here")
 
 
         }
@@ -144,7 +146,7 @@ function fightMode() {
 }
 
 function updateAttackPower() {
-    currentAttackPower = currentAttackPower * 2
+    currentAttackPower = currentAttackPower * 1.1 + 1
     console.log(currentAttackPower)
 
     $('.userCharacter').data('attacknumber', currentAttackPower);
@@ -155,9 +157,9 @@ function updateHP() {
 
 
     $('.currentOpponent').data('hp', opponentHealth);
-    $('.currentOpponent span').html(opponentHealth);
+    $('.currentOpponent span').html("Remaining health: " + opponentHealth);
     $(".userCharacter").data("hp", currentHealthPoints)
-    $(".userCharacter span").html(currentHealthPoints)
+    $(".userCharacter span").html("Remaining health: " + currentHealthPoints)
 
 
 }
@@ -172,7 +174,20 @@ function checkWin() {
         $(".message-box").text("You defeated your opponent! Pick another challenger")
 
         totalOpponents--
+        console.log(totalOpponents)
         whoIsOpponent()
+
+    } 
+    if ((totalOpponents === 0) && (opponentHealth <= 0)) {
+        $(".message-box").text("All opponents defeated. You are the true master of the elements!")
+
     }
+    if (currentHealthPoints <= 0) {
+        $(".message-box").text("You have been defeated. Better luck next time!")
+
+    }
+
 }
+
+
 startGame()
